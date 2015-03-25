@@ -23,6 +23,7 @@ class container {
 public:
   person *plink;  // points to a person object
   container *next;
+
   container(){
     plink = NULL;
     next = NULL;
@@ -47,55 +48,38 @@ public:
 
   /* deletes memory created in constructor */
   virtual ~person() {       
-    //  if(~person) {
     delete name;
     delete email;
-    //  }
   }
 };
 
 int insertion(container** pointerToHead) {
- /* struct container *c;
-  struct person *p;
-
-  c = malloc(sizeof(struct container)); // update malloc to c++
-  p = malloc(sizeof(struct person));*/
-  /* slides explain to replace malloc with the following */
-  
+  container** head;
+  head = pointerToHead;
   container* c = new container();  
-  /*
-  person* p = new person();
-  
-  c->plink = p;
-  c->next = NULL;
+  char nName[32], nEmail[32];
+  int nPhone;
 
-  cout << ("Enter name, phone, email:\n");
-  cin >> p->name;
-  cin >> p->phone;
-  cin >> p->email;
-  cout << ("Please Enter Education: \n0: diploma \n1: bachelor \n2: master \n3: doctorate \n");
-  unsigned int degree;
-  cin >> p->&degree;
-  if (degree > 0x3) {
-    cout << ("Error: degree %d is invalid\n", degree);
-    //free(p);
-    //free(c);
-    return;
-  }
-  p->degree = degree;
-  */
- 
-  /*
-  if(!*pointerToHead) {
-    *pointerToHead = c;
+  cout << "Enter name, phone, email:\n";
+  cin >> nName >> nEmail >> nPhone;
+  person* p = new person(nName, nEmail, nPhone); 
+  
+
+  // put person in container
+  c->plink = p;
+  // check if list is empty
+  if(!*head) {
+    *head = c;
+    cout << "yarr!\n";
   }
   else {
-    struct container *current, *previous;
-    current = previous = *pointerToHead;
+    container *current, *previous;
+    current = previous = *head;
     while (current) {
       if (strcmp(c->plink->name, current->plink->name) >= 0) {
-        if (current == *pointerToHead) {
-          *pointerToHead = c;
+        if (current == *head) {
+          *head = c;
+          cout << "ye made it matey\n";
         } else {
           previous->next = c;
         }
@@ -109,9 +93,9 @@ int insertion(container** pointerToHead) {
 
       previous = current;
       current = current->next;
+     
     }
   }
-  */
 }
 
 int main()

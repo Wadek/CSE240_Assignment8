@@ -1,6 +1,6 @@
 #include <iostream>
 #include <stdlib.h>
-#include <string>
+#include <string.h>
 #pragma warning(disable: 4996)
 using namespace std;
 
@@ -10,11 +10,11 @@ class person;
 
 void branching(char c, container** pointerToHead);  // given
 char* get_name();           // given
-void printFirst(container* root);         // given
+//void printFirst(container* root);         // given
 int insertion(container** pointerToHead);     // Question 2
-person* search(container* root, char* sname);     // Question 3
-void deleteAll(container** pointerToHead);    // Question 4
-void printAll(container* root);       // Question 5
+//person* search(container* root, char* sname);     // Question 3
+//void deleteAll(container** pointerToHead);    // Question 4
+//void printAll(container* root);       // Question 5
 
 
 
@@ -26,8 +26,9 @@ public:
   container(){
     plink = NULL;
     next = NULL;
-  };
+  }
 };
+
 
 // A class to hold attributes of a person
 class person {
@@ -42,15 +43,76 @@ public:
     strcpy(name, cName);    // initialize name
     strcpy(email, cEmail);  // initialize email
     phone = iPhone;     // initialize phone
-  }
+  };
 
-/* deletes memory created in constructor */
-virtual ~person() {       
-  if(~person) {
-    delete[] ~person;
+  /* deletes memory created in constructor */
+  virtual ~person() {       
+    //  if(~person) {
+    delete name;
+    delete email;
+    //  }
   }
-}
 };
+
+int insertion(container** pointerToHead) {
+ /* struct container *c;
+  struct person *p;
+
+  c = malloc(sizeof(struct container)); // update malloc to c++
+  p = malloc(sizeof(struct person));*/
+  /* slides explain to replace malloc with the following */
+  
+  container* c = new container();  
+  /*
+  person* p = new person();
+  
+  c->plink = p;
+  c->next = NULL;
+
+  cout << ("Enter name, phone, email:\n");
+  cin >> p->name;
+  cin >> p->phone;
+  cin >> p->email;
+  cout << ("Please Enter Education: \n0: diploma \n1: bachelor \n2: master \n3: doctorate \n");
+  unsigned int degree;
+  cin >> p->&degree;
+  if (degree > 0x3) {
+    cout << ("Error: degree %d is invalid\n", degree);
+    //free(p);
+    //free(c);
+    return;
+  }
+  p->degree = degree;
+  */
+ 
+  /*
+  if(!*pointerToHead) {
+    *pointerToHead = c;
+  }
+  else {
+    struct container *current, *previous;
+    current = previous = *pointerToHead;
+    while (current) {
+      if (strcmp(c->plink->name, current->plink->name) >= 0) {
+        if (current == *pointerToHead) {
+          *pointerToHead = c;
+        } else {
+          previous->next = c;
+        }
+        c->next = current;
+        break;
+      } else if (!current->next) {
+        current->next = c;
+        c->next = NULL;
+        break;
+      }
+
+      previous = current;
+      current = current->next;
+    }
+  }
+  */
+}
 
 int main()
 {
@@ -70,7 +132,7 @@ int main()
     cout << endl;
   } while (ch != 'q');
   return 0;
-};
+}
 // Branch to different tasks: insert a person, search for a person, delete a person
 // print all added persons.
 void branching(char c, container** pointerToHead)
@@ -81,22 +143,22 @@ void branching(char c, container** pointerToHead)
     insertion(pointerToHead);
     break;
   case 's':
-    p = get_name();
-    search(*pointerToHead, p);
+   // p = get_name();
+   // search(*pointerToHead, p);
     break;
   case 'r':
-    deleteAll(pointerToHead);
+   // deleteAll(pointerToHead);
     break;
   case 'p':
-    printAll(*pointerToHead);
+   // printAll(*pointerToHead);
     break;
   case 'q':
-    deleteAll(pointerToHead); // free all memory
+   // deleteAll(pointerToHead); // free all memory
     break;
   default:
-    printf("Invalid input\n");
+    cout <<"Invalid input\n";
   }
-};
+}
 // Read the input from the user.
 char * get_name()
 {
@@ -113,4 +175,4 @@ void printFirst(container* root)
     cout << "email = " << root->plink->email << endl;
     cout << "phone = " << root->plink->phone << endl;
   }
-};
+}

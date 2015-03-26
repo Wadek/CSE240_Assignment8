@@ -11,9 +11,10 @@ class person;
 void branching(char c, container** pointerToHead);  // given
 char* get_name();           // given
 //void printFirst(container* root);         // given
+
 int insertion(container** pointerToHead);     // Question 2
-//person* search(container* root, char* sname);     // Question 3
-//void deleteAll(container** pointerToHead);    // Question 4
+class person* search(container* root, char* sname);     // Question 3
+void deleteAll(container** pointerToHead);    // Question 4
 //void printAll(container* root);       // Question 5
 
 
@@ -98,6 +99,23 @@ int insertion(container** pointerToHead) {
   }
 }
 
+/*Find's a person based on their name */
+class person* search(container* root, char* sname) {
+   
+  container* c = new container();  
+  c = root;
+  
+  while(c) {
+    if(strcmp(sname, c->plink->name) == 0) {
+    cout << "mission complete, person found";
+      break;  
+    
+    }
+  c = c->next;
+  }
+  return c->plink;
+}
+
 int main()
 {
   container* head = NULL; // Declare head as a local variable of main function
@@ -121,23 +139,24 @@ int main()
 // print all added persons.
 void branching(char c, container** pointerToHead)
 {
+  class person *pp; 
   char *p;
   switch (c) {
   case 'i':
     insertion(pointerToHead);
     break;
   case 's':
-   // p = get_name();
-   // search(*pointerToHead, p);
+    p = get_name();
+    pp = search(*pointerToHead, p);
     break;
   case 'r':
-   // deleteAll(pointerToHead);
+    deleteAll(pointerToHead);
     break;
   case 'p':
    // printAll(*pointerToHead);
     break;
   case 'q':
-   // deleteAll(pointerToHead); // free all memory
+    deleteAll(pointerToHead); // free all memory
     break;
   default:
     cout <<"Invalid input\n";

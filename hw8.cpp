@@ -10,12 +10,12 @@ class person;
 
 void branching(char c, container** pointerToHead);  // given
 char* get_name();           // given
-//void printFirst(container* root);         // given
-
+void printFirst(container* root);         // given
+void printPerson(person* c); // prints person after found using search 
 int insertion(container** pointerToHead);     // Question 2
-class person* search(container* root, char* sname);     // Question 3
+person* search(container* root, char* sname);     // Question 3
 void deleteAll(container** pointerToHead);    // Question 4
-//void printAll(container* root);       // Question 5
+void printAll(container* root);       // Question 5
 
 
 
@@ -71,7 +71,7 @@ int insertion(container** pointerToHead) {
   // check if list is empty
   if(!*head) {
     *head = c;
-    cout << "yarr!\n";
+    cout << "list was null!\n";
   }
   else {
     container *current, *previous;
@@ -80,9 +80,10 @@ int insertion(container** pointerToHead) {
       if (strcmp(c->plink->name, current->plink->name) >= 0) {
         if (current == *head) {
           *head = c;
-          cout << "ye made it matey\n";
+          cout << "reached if condition\n";
         } else {
           previous->next = c;
+          cout << "reached the else condition\n";
         }
         c->next = current;
         break;
@@ -100,21 +101,63 @@ int insertion(container** pointerToHead) {
 }
 
 /*Find's a person based on their name */
-class person* search(container* root, char* sname) {
+person* search(container* root, char* sname) {
+  if(sname) {
+    if(root) { 
+      container* c = new container();  
+      c = root;
    
-  container* c = new container();  
-  c = root;
-  
-  while(c) {
-    if(strcmp(sname, c->plink->name) == 0) {
-    cout << "mission complete, person found";
-      break;  
-    
+      while(c) {
+        if(strcmp(sname, c->plink->name) == 0) {
+          cout << "Great job, you found who you're looking for!";
+          printPerson(c->plink);
+          break;  
+        }
+        c = c->next;
+      }
+      if (c) {
+        return c->plink;
+      } else {
+        return NULL;
+      }
     }
-  c = c->next;
   }
-  return c->plink;
 }
+
+ 
+  /* using recursion we delete the last node in the list first
+   * then recursively we delete all the others. */
+void deleteAll(container** pointerToHead) {
+  container *head = *pointerToHead;
+  if(head) {
+    deleteAll(&(head)->next);
+    delete (head)->plink;
+    (head)->plink = NULL;
+    delete head;
+    head = NULL;
+  }
+  /* head is null here */
+  break;
+}
+
+/*recursively print all items in container until null pointer reached */
+void printAll(container* root) {
+  if (root) {
+    printAll(root->next);
+    printPerson(root->plink);
+  }
+}
+
+void printPerson(person* c) {
+  if(c) {
+    cout << "\n\nname = " << c->name << endl;
+    cout << "email = " << c->email << endl;
+    cout << "phone = " << c->phone << endl;
+    }
+}
+
+
+
 
 int main()
 {
@@ -153,7 +196,7 @@ void branching(char c, container** pointerToHead)
     deleteAll(pointerToHead);
     break;
   case 'p':
-   // printAll(*pointerToHead);
+    printAll(*pointerToHead);
     break;
   case 'q':
     deleteAll(pointerToHead); // free all memory
@@ -169,7 +212,8 @@ char * get_name()
   cout << "Please enter a name for the search: " <<endl;
   cin >> p;
   return p;
-};
+}
+
 void printFirst(container* root)
 {
   if (root != NULL)

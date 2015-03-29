@@ -1,6 +1,7 @@
 #include <iostream>
 #include <stdlib.h>
 #include <string.h>
+#include <cstdio>
 #pragma warning(disable: 4996)
 using namespace std;
 
@@ -165,22 +166,27 @@ void printFirst(container* root)
   }
 }
 
+void flush() {  // flush the input buffer. To be discussed later
+  int c;
+  do {
+    c = cin.get();
+  } while (c != '\n' && c != EOF);
+}
 
 int main()
 {
   container* head = NULL; // Declare head as a local variable of main function
   // Print a menu for selection
-  char ch = 'i';
+  char ch;
   do {
+    flush();
     cout<< "Enter your selection" << endl;
     cout<< "\ti: insert a new entry" << endl;
     cout<< "\tr: delete all entries" << endl;
     cout<< "\ts: search an entry" << endl;
     cout<< "\tp: print all entries" << endl;
     cout<< "\tq: quit" << endl;
-    /* this overflows.. */
     cin >> ch;
-    /* somehow restrain it to just one character of input? */
     ch = tolower(ch); // Convert any uppercase char to lowercase.
     branching(ch, &head);
     cout << endl;

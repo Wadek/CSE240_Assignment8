@@ -49,8 +49,9 @@ public:
 
   /* deletes memory created in constructor */
   virtual ~person() {       
-    delete name;
-    delete email;
+    /*char 32 is array? */
+    delete[] name;
+    delete[] email;
   }
 };
 
@@ -71,7 +72,6 @@ int insertion(container** pointerToHead) {
   // check if list is empty
   if(!*head) {
     *head = c;
-    cout << "list was null!\n";
   }
   else {
     container *current, *previous;
@@ -80,10 +80,8 @@ int insertion(container** pointerToHead) {
       if (strcmp(c->plink->name, current->plink->name) >= 0) {
         if (current == *head) {
           *head = c;
-          cout << "reached if condition\n";
         } else {
           previous->next = c;
-          cout << "reached the else condition\n";
         }
         c->next = current;
         break;
@@ -128,16 +126,17 @@ person* search(container* root, char* sname) {
   /* using recursion we delete the last node in the list first
    * then recursively we delete all the others. */
 void deleteAll(container** pointerToHead) {
-  container *head = *pointerToHead;
-  if(head) {
-    deleteAll(&(head)->next);
-    delete (head)->plink;
-    (head)->plink = NULL;
-    delete head;
-    head = NULL;
+  if(*pointerToHead) {
+    deleteAll(&(*pointerToHead)->next);
+    /* this delete causes the destroy person fucntion to be called.
+     * which in turn deletes name and email which somehow causes an
+     * error... */
+    delete (*pointerToHead)->plink;
+    (*pointerToHead)->plink = NULL;
+    delete *pointerToHead;
+    *pointerToHead = NULL;
   }
   /* head is null here */
-  break;
 }
 
 /*recursively print all items in container until null pointer reached */
@@ -156,7 +155,15 @@ void printPerson(person* c) {
     }
 }
 
-
+void printFirst(container* root)
+{
+  if (root != NULL)
+  {
+    cout << "\n\nname = " << root->plink->name << endl;
+    cout << "email = " << root->plink->email << endl;
+    cout << "phone = " << root->plink->phone << endl;
+  }
+}
 
 
 int main()
@@ -171,7 +178,9 @@ int main()
     cout<< "\ts: search an entry" << endl;
     cout<< "\tp: print all entries" << endl;
     cout<< "\tq: quit" << endl;
+    /* this overflows.. */
     cin >> ch;
+    /* somehow restrain it to just one character of input? */
     ch = tolower(ch); // Convert any uppercase char to lowercase.
     branching(ch, &head);
     cout << endl;
@@ -214,12 +223,4 @@ char * get_name()
   return p;
 }
 
-void printFirst(container* root)
-{
-  if (root != NULL)
-  {
-    cout << "\n\nname = " << root->plink->name << endl;
-    cout << "email = " << root->plink->email << endl;
-    cout << "phone = " << root->plink->phone << endl;
-  }
-}
+
